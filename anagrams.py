@@ -2,12 +2,20 @@ from itertools import permutations
 import time
 
 def findAnagramMatches(s,word_list):
+  begin = time.time()
   perms = [''.join(p) for p in permutations(s)]
   perms = list(set(perms))
   matches = set()
+  end = time.time()
+  build_time = end - begin
+  begin = time.time()
   for p in perms:
     if(p in word_list and p != s):
       matches.add(p)
+  end = time.time()
+  search_time = end-begin
+  print("Build set time:  " + str(build_time))
+  print("Search time:     " + str(search_time))
   return matches
 
 def loadWordList(filename):
