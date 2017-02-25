@@ -1,4 +1,5 @@
 from itertools import permutations
+import time
 
 def findAnagramMatches(s,word_list):
   perms = [''.join(p) for p in permutations(s)]
@@ -25,11 +26,14 @@ if __name__ == "__main__":
     s = raw_input("Enter a string (or q to quit): ")
     if s == "q":
       break
+    begin = time.time()
     matches = findAnagramMatches(s,word_list)
+    end = time.time()
     if(len(matches) > 0):
       print("Matches for "+s+": ")
       for m in matches:
         print(m)
     else:
       print("No matches for "+s)
+    print("took " + str(end-begin) + " seconds")
 
