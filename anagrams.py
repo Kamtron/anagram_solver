@@ -3,7 +3,8 @@ import time
 
 def findAnagramMatches(s,word_list):
   matches = set()
-  for p in permutations(s):
+  for x in permutations(s):
+    p = ''.join(x)
     if(p in word_list and p != s):
       matches.add(p)
   return matches
