@@ -1,13 +1,31 @@
-from itertools import permutations
+from itertools import permutations, islice
+import threading
 import time
+from math import factorial
 
-def findAnagramMatches(s,word_list):
+def calcEvenPermutations(s,word_list):
   matches = set()
-  for x in permutations(s):
+  n = factorial(len(s))
+  for x in islice(permutations(s),0,n,2):
     p = ''.join(x)
     if(p in word_list and p != s):
       matches.add(p)
   return matches
+
+def calcOddPermutations(s,word_list):
+  matches = set()
+  n = factorial(len(s))
+  for x in islice(permutations(s),1,n,2):
+    p = ''.join(x)
+    if(p in word_list and p != s):
+      matches.add(p)
+  return matches
+  
+
+def findAnagramMatches(s,word_list):
+  matches = calcEvenPermutations(s,word_list)
+  matches2 = calcOddPermutations(s,word_list)
+  return matches.union(matches2)
 
 def loadWordList(filename):
     f = open(filename,"r")
