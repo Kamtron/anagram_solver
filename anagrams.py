@@ -7,7 +7,7 @@ from math import factorial
 def calcEvenPermutations(s,word_list,match_q):
   n = factorial(len(s))
   matches = set()
-  for x in islice(permutations(s),0,n,2):
+  for x in islice(permutations(s),0,n/2,1):
     p = ''.join(x)
     if(p in word_list and p != s):
       matches.add(p)
@@ -17,7 +17,7 @@ def calcEvenPermutations(s,word_list,match_q):
 def calcOddPermutations(s,word_list,match_q):
   n = factorial(len(s))
   matches = set()
-  for x in islice(permutations(s),1,n,2):
+  for x in islice(permutations(s),n/2,n,1):
     p = ''.join(x)
     if(p in word_list and p != s):
       matches.add(p)
@@ -36,8 +36,9 @@ def findAnagramMatches(s,word_list):
 
   #calcEvenPermutations(s,word_list,matches)
   #calcOddPermutations(s,word_list,matches2)
-  matches = match_queue.get()
-  return matches
+  matches1 = match_queue.get()
+  matches2 = match_queue.get()
+  return matches1.union(matches2)
 
 def loadWordList(filename):
     f = open(filename,"r")
