@@ -17,25 +17,17 @@ def calcPermutations(s,word_list,work_unit,total_units,match_q):
 
 def findAnagramMatches(s,word_list):
   match_queue = multiprocessing.Queue()
-  t1 = multiprocessing.Process(target=calcPermutations,args=(s,word_list,0,4,match_queue))
-  t2 = multiprocessing.Process(target=calcPermutations,args=(s,word_list,1,4,match_queue))
-  t3 = multiprocessing.Process(target=calcPermutations,args=(s,word_list,2,4,match_queue))
-  t4 = multiprocessing.Process(target=calcPermutations,args=(s,word_list,3,4,match_queue))
-  t1.start()
-  t2.start()
-  t3.start()
-  t4.start()
-  t2.join()
-  t1.join()
-  t3.join()
-  t4.join()
+  processes = []
+  for i in range(4):
+    processes.append(multiprocessing.Process(target=calcPermutations,args=(s,word_list,i,4,match_queue)))
+    processes[i].start()
 
-  #calcEvenPermutations(s,word_list,matches)
-  #calcOddPermutations(s,word_list,matches2)
-  matches = match_queue.get()
-  matches = matches.union(match_queue.get())
-  matches = matches.union(match_queue.get())
-  matches = matches.union(match_queue.get())
+  matches = set()
+  for i in range(4):
+    processes[i].join()
+  for i in range(4):
+    matches = matches.union(match_queue.get())
+
   return matches
 
 def loadWordList(filename):
