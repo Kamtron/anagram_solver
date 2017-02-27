@@ -3,28 +3,35 @@ import threading
 import time
 from math import factorial
 
-def calcEvenPermutations(s,word_list):
-  matches = set()
+def calcEvenPermutations(s,word_list,matches):
   n = factorial(len(s))
   for x in islice(permutations(s),0,n,2):
     p = ''.join(x)
     if(p in word_list and p != s):
       matches.add(p)
-  return matches
+  return
 
-def calcOddPermutations(s,word_list):
-  matches = set()
+def calcOddPermutations(s,word_list,matches):
   n = factorial(len(s))
   for x in islice(permutations(s),1,n,2):
     p = ''.join(x)
     if(p in word_list and p != s):
       matches.add(p)
-  return matches
+  return
   
 
 def findAnagramMatches(s,word_list):
-  matches = calcEvenPermutations(s,word_list)
-  matches2 = calcOddPermutations(s,word_list)
+  matches = set()
+  matches2 = set()
+  t1 = threading.Thread(target=calcEvenPermutations,args=(s,word_list,matches))
+  t1.start()
+  t1.join()
+  t2 = threading.Thread(target=calcOddPermutations,args=(s,word_list,matches2))
+  t2.start()
+  t2.join()
+
+  #calcEvenPermutations(s,word_list,matches)
+  #calcOddPermutations(s,word_list,matches2)
   return matches.union(matches2)
 
 def loadWordList(filename):
