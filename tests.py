@@ -2,15 +2,8 @@ import unittest
 import anagrams
 from itertools import islice
 
-def print_slice(x):
-  for e in islice(x,0,len(x),2):
-    print(e)
-
 class TestAnagramStuff(unittest.TestCase):
 
-  def test_slicing(self):
-    print_slice([0,1,2,3,4,5,6,7,8,9,10])
-  
   def test_no_anagram_matches(self):
     s = "ppleaaaa"
     word_list = []
@@ -45,8 +38,7 @@ class TestAnagramStuff(unittest.TestCase):
     s = "gseg"
     word_list = anagrams.loadWordList("words.txt")
     matches = anagrams.findAnagramMatches(s,word_list)
-    for m in matches:
-      print(m)
+    self.assertEqual(1,len(matches))
 
 if __name__ == '__main__':
   unittest.main()

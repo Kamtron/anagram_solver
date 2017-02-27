@@ -4,20 +4,10 @@ import multiprocessing
 import time
 from math import factorial
 
-def calcEvenPermutations(s,word_list,match_q):
+def calcPermutations(s,word_list,work_unit,total_units,match_q):
   n = factorial(len(s))
   matches = set()
-  for x in islice(permutations(s),0,n/2,1):
-    p = ''.join(x)
-    if(p in word_list and p != s):
-      matches.add(p)
-  match_q.put(matches)
-  return
-
-def calcOddPermutations(s,word_list,match_q):
-  n = factorial(len(s))
-  matches = set()
-  for x in islice(permutations(s),n/2,n,1):
+  for x in islice(permutations(s),work_unit,n,total_units):
     p = ''.join(x)
     if(p in word_list and p != s):
       matches.add(p)
@@ -27,18 +17,26 @@ def calcOddPermutations(s,word_list,match_q):
 
 def findAnagramMatches(s,word_list):
   match_queue = multiprocessing.Queue()
-  t1 = multiprocessing.Process(target=calcEvenPermutations,args=(s,word_list,match_queue))
-  t2 = multiprocessing.Process(target=calcOddPermutations,args=(s,word_list,match_queue))
+  t1 = multiprocessing.Process(target=calcPermutations,args=(s,word_list,0,4,match_queue))
+  t2 = multiprocessing.Process(target=calcPermutations,args=(s,word_list,1,4,match_queue))
+  t3 = multiprocessing.Process(target=calcPermutations,args=(s,word_list,2,4,match_queue))
+  t4 = multiprocessing.Process(target=calcPermutations,args=(s,word_list,3,4,match_queue))
   t1.start()
   t2.start()
+  t3.start()
+  t4.start()
   t2.join()
   t1.join()
+  t3.join()
+  t4.join()
 
   #calcEvenPermutations(s,word_list,matches)
   #calcOddPermutations(s,word_list,matches2)
-  matches1 = match_queue.get()
-  matches2 = match_queue.get()
-  return matches1.union(matches2)
+  matches = match_queue.get()
+  matches = matches.union(match_queue.get())
+  matches = matches.union(match_queue.get())
+  matches = matches.union(match_queue.get())
+  return matches
 
 def loadWordList(filename):
     f = open(filename,"r")
