@@ -24,11 +24,11 @@ def findAnagramMatches(s,word_list):
   matches = set()
   matches2 = set()
   t1 = threading.Thread(target=calcEvenPermutations,args=(s,word_list,matches))
-  t1.start()
-  t1.join()
   t2 = threading.Thread(target=calcOddPermutations,args=(s,word_list,matches2))
+  t1.start()
   t2.start()
   t2.join()
+  t1.join()
 
   #calcEvenPermutations(s,word_list,matches)
   #calcOddPermutations(s,word_list,matches2)
