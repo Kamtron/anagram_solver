@@ -1,3 +1,4 @@
+### Tis a silly place
 I really hate anagrams, so I scripted a tool to solve them.  
 I used the silliest possible algorithm:
   - load all possible words into a set
@@ -6,6 +7,8 @@ Fortunately, looking up something in a set is O(1).
 Unfortunately, calculating the permutations is O(n!), where n=len(s)
 Long words, such as "prescriptions" have a lot of permutations (6,227,020,800 to be precise), so creating
 all of the permutations took some time (some 2000 seconds, even on a shiny new Xeon).
+
+### Sillier than that
 
 Clearly, the next step was to go parallel!
 I first tried multithreading, but quickly learned
@@ -22,6 +25,8 @@ me about a 2x speedup on 2 cores, and about 5x
 on a 6 core Xeon.  Even the
 raspberry pi got some love, with a 3x speedup on
 its 4 little ARM cores.
+
+### Finally, some sense
 
 Parallelism is fun and all, but I decided that
 it was time for a better algorithm.  I generated
