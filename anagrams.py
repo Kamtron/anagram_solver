@@ -18,7 +18,7 @@ def calcPermutations(s,word_list,work_unit,total_units,match_q):
 def findAnagramMatches(s,word_list):
   match_queue = multiprocessing.Queue()
   processes = []
-  nproc = 1
+  nproc = 2
   for i in range(nproc):
     processes.append(multiprocessing.Process(target=calcPermutations,args=(s,word_list,i,nproc,match_queue)))
     processes[i].start()

@@ -1,5 +1,6 @@
 import unittest
 import anagrams
+import fastergrams
 from itertools import islice
 
 class TestAnagramStuff(unittest.TestCase):
@@ -39,6 +40,20 @@ class TestAnagramStuff(unittest.TestCase):
     word_list = anagrams.loadWordList("words.txt")
     matches = anagrams.findAnagramMatches(s,word_list)
     self.assertEqual(1,len(matches))
+
+  def test_generateKey(self):
+    word = "race"
+    key = fastergrams.generateKey(word)
+    self.assertEqual("acer",key)
+
+
+  def test_asldkj(self):
+    d = fastergrams.convertWordListToDict(['race','acre'])
+    self.assertEqual(1,len(d))
+    key = fastergrams.generateKey('race')
+    self.assertEqual(2,len(d[key]))
+    self.assertEqual('race',d[key][0])
+    self.assertEqual('acre',d[key][1])
 
 if __name__ == '__main__':
   unittest.main()
