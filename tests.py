@@ -47,13 +47,24 @@ class TestAnagramStuff(unittest.TestCase):
     self.assertEqual("acer",key)
 
 
-  def test_asldkj(self):
+  def test_creatingDictionary(self):
     d = fastergrams.convertWordListToDict(['race','acre'])
     self.assertEqual(1,len(d))
     key = fastergrams.generateKey('race')
     self.assertEqual(2,len(d[key]))
     self.assertEqual('race',d[key][0])
     self.assertEqual('acre',d[key][1])
+    fastergrams.addWordToDict('eggs',d)
+    self.assertEqual(2,len(d))
+    key = fastergrams.generateKey('eggs')
+    self.assertEqual(1,len(d[key]))
+    self.assertEqual('eggs',d[key][0])
+
+  #def test_withRealWordList(self):
+  #  word_list = anagrams.loadWordList("words.txt")
+  #  d = fastergrams.convertWordListToDict(word_list)
+  #  matches = fastergrams.findAnagramMatches("cameron",d)
+  #  print(matches)
 
 if __name__ == '__main__':
   unittest.main()
